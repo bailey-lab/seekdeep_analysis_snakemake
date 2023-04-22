@@ -1,4 +1,4 @@
-skdp_folder: /work/asimkin/seekdeep/DR_amplicon_panel/seekdeep_illumina_snakemake/example_output_folder
-output_folder: aa_analysis_elucidator
-zipped_status: true #is the seekdeep input file zipped?
+skdp_folder: /work/asimkin/seekdeep/DBLa/23-04-19_analysis/seekdeep_illumina_snakemake/day_vs_ideel_results
+output_folder: done
+zipped_status: true #is the output file of seekdeep zipped?
 seekdeep_subdir: analysis

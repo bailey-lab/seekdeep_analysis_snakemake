@@ -8,11 +8,11 @@ import gzip
 import yaml
 
 snakemake_folder=snakemake.input['seekdeep_results']
+seekdeep_subdir=snakemake.params['seekdeep_subdir']
 #database_pickle=snakemake.output['pickle_database']
 database_yaml=snakemake.output['yaml_database']
-sample_file=f'{snakemake_folder}/sampleNames.tab.txt'
+sample_file=f'{snakemake_folder}/{seekdeep_subdir}/info/sampNames.tab.txt'
 zipped=snakemake.params['zipped_status']
-seekdeep_subdir=snakemake.params['seekdeep_subdir']
 
 #def get_extraction_totals:
 	
@@ -20,16 +20,18 @@ seekdeep_subdir=snakemake.params['seekdeep_subdir']
 def make_empty_db(sample_file):
 	empty_db={}
 	for line_number, line in enumerate(open(sample_file)):
-		if line_number>0:
-			line=line.strip().split()
-			primer, sample, reps=line[0], line[1], line[2:]
-			if primer not in empty_db:
-				empty_db[primer]={}
-			if sample not in empty_db[primer]:
-				empty_db[primer][sample]={}
-			for rep in reps:
-				if rep not in empty_db[primer][sample]:
-					empty_db[primer][sample][rep]={}
+		line=line.strip().split()
+		for entry_number, entry in enumerate(line):
+			if entry.startswith('MID'):
+				line[entry_number]=entry[3:]
+		primer, sample, reps=line[0], line[1], line[2:]
+		if primer not in empty_db:
+			empty_db[primer]={}
+		if sample not in empty_db[primer]:
+			empty_db[primer][sample]={}
+		for rep in reps:
+			if rep not in empty_db[primer][sample]:
+				empty_db[primer][sample][rep]={}
 	return empty_db
 
 def populate_db(main_db, snakemake_folder):
