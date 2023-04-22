@@ -1,0 +1,27 @@
+gene name	synonym	geneID	aa_position	susceptible aa	resistant aa	genomic_positions_covered	amplicon name	purpose				
+ama1		PF3D7_1133400.1	n/a	n/a	n/a		AMA1	COI				
+dhfr-ts		PF3D7_0417200.1	51	N	I		DHFR-51-59	drug resistance calling				
+dhfr-ts		PF3D7_0417200.1	59	C	R		DHFR-51-59	drug resistance calling				
+dhfr-ts		PF3D7_0417200.1	108	S	N		DHFR-108	drug resistance calling				
+dhps		PF3D7_0810800.1	437	G	A		DHPS-437	drug resistance calling				
+dhps		PF3D7_0810800.1	540	K	E		DHPS-540	drug resistance calling				
+dhps		PF3D7_0810800.1	581	A	G		DHPS-581	drug resistance calling				
+dhps		PF3D7_0810800.1	613	A	S		DHPS-613	drug resistance calling				
+k13	kelch13	PF3D7_1343700.1	446	F	I		K13-A-446-458	drug resistance calling				
+k13	kelch13	PF3D7_1343700.1	458	N	Y		K13-A-446-458	drug resistance calling				
+k13	kelch13	PF3D7_1343700.1	469	C	Y		K13-B-469-4932	drug resistance calling				
+k13	kelch13	PF3D7_1343700.1	469	C	F		K13-B-469-4932	drug resistance calling				
+k13	kelch13	PF3D7_1343700.1	493	Y	H		K13-B-469-4932	drug resistance calling				
+k13	kelch13	PF3D7_1343700.1	539	R	T		K13-C-539-561	drug resistance calling				
+k13	kelch13	PF3D7_1343700.1	561	R	H		K13-C-539-561	drug resistance calling				
+k13	kelch13	PF3D7_1343700.1	574	P	L		K13-D-574-580	drug resistance calling				
+k13	kelch13	PF3D7_1343700.1	580	C	Y		K13-D-574-580	drug resistance calling				
+k13	kelch13	PF3D7_1343700.1	675	A	V		K13-E-675	drug resistance calling		wildtype resistant or susceptible?		
+mdr1		PF3D7_0523000.1	86	N	Y		MDR1-86	drug resistance calling				
+mdr1		PF3D7_0523000.1	184	Y	F		MDR1-184	drug resistance calling				
+mdr1		PF3D7_0523000.1	1034	S	C		MDR1-1034	drug resistance calling				
+crt		PF3D7_0709000.1	72	C	S		PFCRT	drug resistance calling				
+crt		PF3D7_0709000.1	73				PFCRT	drug resistance calling		CVIET - chloroquine resistant 		3D7 wildtype is susceptible
+crt		PF3D7_0709000.1	74	M	I		PFCRT	drug resistance calling				
+crt		PF3D7_0709000.1	75	N	E		PFCRT	drug resistance calling				
+crt		PF3D7_0709000.1	76	K	T		PFCRT	drug resistance calling		classic and most influential		

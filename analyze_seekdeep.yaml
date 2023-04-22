@@ -1,0 +1,4 @@
+skdp_folder: /work/asimkin/seekdeep/DR_amplicon_panel/seekdeep_illumina_snakemake/example_output_folder
+output_folder: aa_analysis_elucidator
+zipped_status: true
+seekdeep_subdir: analysis
