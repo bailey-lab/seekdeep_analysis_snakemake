@@ -10,10 +10,8 @@ pipeline. Outputs include:
  - if applicable, relative abundance of amino acid point mutations as a heatmap
 
 ## Installation:
-### Install conda:
-https://github.com/conda-forge/miniforge#mambaforge
-
-### Create a conda environment and install snakemake there:
+ - Install conda: https://github.com/conda-forge/miniforge#mambaforge
+ - Create a conda environment and install snakemake there:
 ```bash
 conda create -c conda-forge -c bioconda -n snakemake snakemake
 ```
