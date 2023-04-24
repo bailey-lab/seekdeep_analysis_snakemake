@@ -1,4 +1,4 @@
-configfile: 'input_files/analyze_seekdeep.yaml'
+configfile: 'analyze_seekdeep.yaml'
 
 output_root='output_files/'+config['output_folder']+'/'
 
@@ -6,9 +6,9 @@ rule all:
 	input:
 		heatmap_plot=output_root+config['output_folder']+'_read_heatmap.html',
 		hap_heatmap_plot=output_root+config['output_folder']+'_COI_heatmap.html',
-		config_duplicate=output_root+'config.yaml',
+		config_duplicate=output_root+'copied_config_files/analyze_seekdeep.yaml',
 		yaml_database=output_root+'read_dict.yaml',
-		aa_heatmap=output_root+config['output_folder']+'_amino_acid_heatmap.html'
+		final_file=output_root+config['output_folder']+'_'+config['final_output']
 
 rule copy_files:
 	input:
@@ -18,7 +18,7 @@ rule copy_files:
 	output:
 		config_duplicate=output_root+'copied_config_files/analyze_seekdeep.yaml',
 		snakemake_duplicate=output_root+'copied_config_files/analyze_seekdeep.smk',
-		scripts_duplicate=output_root+'copied_config_files/scripts'
+		scripts_duplicate=directory(output_root+'copied_config_files/scripts')
 	shell:
 		'''
 		cp {input.original_config} {output.config_duplicate}

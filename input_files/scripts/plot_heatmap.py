@@ -15,6 +15,10 @@ yaml_sorted_parasitemia_path=snakemake.output['yaml_sorted_parasitemia']
 reorganized_db={}
 
 def calculate_replicate_parasitemia(parasitemia_path):
+	'''
+	This function doesn't calculate replicate parasitemia as much as parse it
+	from an input file.
+	'''
 	para_dict={}
 	for line_number, line in enumerate(open(parasitemia_path)):
 		if line_number>0:
@@ -54,10 +58,10 @@ def populate_graph_list(reorganized_db):
 	para_dict=calculate_replicate_parasitemia(parasitemia_path)
 	parasitemia_sorted=sorted([[para_dict[replicate], replicate] for replicate in reorganized_db])
 	sorted_replicates=[replicate[1] for replicate in parasitemia_sorted]
-	for replicate in sorted_replicates:
+	for replicate in sorted_replicates: #this could be from a pre-sorted snakemake yaml file
 		count_rep_list=[]
 		hap_rep_list=[]
-		y_values.append(replicate+'_'+str(para_dict[replicate]))
+		y_values.append(replicate+'_'+str(para_dict[replicate])) #this could be passed as additional list arguments for each replicate
 		for primer in x_values:
 			count_rep_list.append(math.log(reorganized_db[replicate][primer][0]+1, 2))
 			hap_rep_list.append(reorganized_db[replicate][primer][1])
