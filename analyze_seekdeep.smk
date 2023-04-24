@@ -63,13 +63,13 @@ rule plot_heatmap:
 	'''
 	input:
 		yaml_database=output_root+'read_dict.yaml',
-		parasitemia_path='input_files/sample_parasitemia.csv'
+	params:
+		sorted_reps=expand('{reps}', reps=config['sorted_reps'])
 	output:
 		count_heatmap_plot=output_root+config['output_folder']+'_read_heatmap.html',
 		hap_heatmap_plot=output_root+config['output_folder']+'_COI_heatmap.html',
 		read_counts=output_root+config['output_folder']+'_read_counts.tsv',
 		hap_counts=output_root+config['output_folder']+'_hap_counts.tsv',
-		yaml_sorted_parasitemia=output_root+config['output_folder']+'_sorted_parasitemia.yaml',
 #		pickle_sorted_parasitemia=output_root+config['output_folder']+'_sorted_parasitemia.pkl'
 	script:
 		'input_files/scripts/plot_heatmap.py'

@@ -3,7 +3,7 @@ import pickle
 import yaml
 import pandas as pd
 import math
-#main_db=pickle.load(open(snakemake.input['pickle_database'], 'rb'))
+sorted_replicates=snakemake.params['sorted_reps']
 main_db=yaml.safe_load(open(snakemake.input['yaml_database']))
 count_tsv_file=open(snakemake.output['read_counts'], 'w')
 hap_tsv_file=open(snakemake.output['hap_counts'], 'w')

@@ -1,8 +1,48 @@
-skdp_folder: /work/asimkin/seekdeep/DBLa/23-04-19_analysis/seekdeep_illumina_snakemake/day_vs_ideel_results
-output_folder: done
-zipped_status: true #is the output file of seekdeep zipped?
-skdp_folder: /work/asimkin/seekdeep/DR_amplicon_panel/seekdeep_illumina_snakemake/example_output_folder
-output_folder: 221109_UNC22_0993_000000000-KMJ6M_amplicon_panel_protocol1.5
+skdp_folder: /nfs/jbailey5/baileyweb/igyuricz/DrugResistAmp_3D7/output_files/results_newrun_25cutoff_singularity_overlapstatus
+output_folder: amplicon_panel_3D7_variable_conc_protocol1.6
 final_output: read_heatmap.html
 zipped_status: true #is the seekdeep input file zipped?
-seekdeep_subdir: analysis
+seekdeep_subdir: setup_folder
+sorted_reps:
+  - 3D7-DBS1-01-Rep11
+  - 3D7-DBS1-01-Rep12
+  - 3D7-DBS2-01-Rep21
+  - 3D7-DBS2-01-Rep22
+  - 3D7-DBS3-01-Rep31
+  - 3D7-DBS3-01-Rep32
+  - 3D7-DBS1-10-Rep11
+  - 3D7-DBS1-10-Rep12
+  - 3D7-DBS2-10-Rep21
+  - 3D7-DBS2-10-Rep22
+  - 3D7-DBS3-10-Rep31
+  - 3D7-DBS3-10-Rep32
+  - 3D7-DBS1-100-Rep11
+  - 3D7-DBS1-100-Rep12
+  - 3D7-DBS2-100-Rep21
+  - 3D7-DBS2-100-Rep22
+  - 3D7-DBS3-100-Rep31
+  - 3D7-DBS3-100-Rep32
+  - 3D7-DBS1-1K-Rep11
+  - 3D7-DBS1-1K-Rep12
+  - 3D7-DBS2-1K-Rep21
+  - 3D7-DBS2-1K-Rep22
+  - 3D7-DBS3-1K-Rep31
+  - 3D7-DBS3-1K-Rep32
+  - 3D7-DBS1-10K-Rep11
+  - 3D7-DBS1-10K-Rep12
+  - 3D7-DBS2-10K-Rep21
+  - 3D7-DBS2-10K-Rep22
+  - 3D7-DBS3-10K-Rep31
+  - 3D7-DBS3-10K-Rep32
+  - 3D7-DBS1-01S-Rep11
+  - 3D7-DBS1-01S-Rep12
+  - 3D7-DBS2-01S-Rep21
+  - 3D7-DBS2-01S-Rep22
+  - 3D7-DBS3-01S-Rep31
+  - 3D7-DBS3-01S-Rep32
+  - 3D7-DBS1-10S-Rep11
+  - 3D7-DBS1-10S-Rep12
+  - 3D7-DBS2-10S-Rep21
+  - 3D7-DBS2-10S-Rep22
+  - 3D7-DBS3-10S-Rep31
+  - 3D7-DBS3-10S-Rep32
