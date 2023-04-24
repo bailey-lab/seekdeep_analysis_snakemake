@@ -1,11 +1,8 @@
-<<<<<<< HEAD
 skdp_folder: /work/asimkin/seekdeep/DBLa/23-04-19_analysis/seekdeep_illumina_snakemake/day_vs_ideel_results
 output_folder: done
 zipped_status: true #is the output file of seekdeep zipped?
-=======
 skdp_folder: /work/asimkin/seekdeep/DR_amplicon_panel/seekdeep_illumina_snakemake/example_output_folder
 output_folder: 221109_UNC22_0993_000000000-KMJ6M_amplicon_panel_protocol1.5
 final_output: read_heatmap.html
 zipped_status: true #is the seekdeep input file zipped?
->>>>>>> cbcd4a9 (prepping for simplification)
 seekdeep_subdir: analysis
