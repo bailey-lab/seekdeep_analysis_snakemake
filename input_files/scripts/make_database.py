@@ -6,13 +6,13 @@ import csv
 import pickle
 import gzip
 import yaml
+import os
 
 snakemake_folder=snakemake.input['seekdeep_results']
 seekdeep_subdir=snakemake.params['seekdeep_subdir']
 #database_pickle=snakemake.output['pickle_database']
 database_yaml=snakemake.output['yaml_database']
 sample_file=f'{snakemake_folder}/{seekdeep_subdir}/info/sampNames.tab.txt'
-zipped=snakemake.params['zipped_status']
 
 #def get_extraction_totals:
 	
@@ -36,12 +36,14 @@ def make_empty_db(sample_file):
 
 def populate_db(main_db, snakemake_folder):
 	for primer in main_db:
-		if zipped:
-			overall_summary=f'{snakemake_folder}/{seekdeep_subdir}/popClustering/{primer}/analysis/selectedClustersInfo.tab.txt.gz'
-			file_handle=gzip.open(overall_summary, mode='rt')
+		zip_test=f'{snakemake_folder}/{seekdeep_subdir}/popClustering/{primer}/analysis/selectedClustersInfo.tab.txt.gz'
+		unzip_test=f'{snakemake_folder}/{seekdeep_subdir}/popClustering/{primer}/analysis/selectedClustersInfo.tab.txt'
+		if os.path.isfile(zip_test):
+			file_handle=gzip.open(zip_test, mode='rt')
+		elif os.path.isfile(unzip_test):
+			file_handle=open(unzip_test)
 		else:
-			overall_summary=f'{snakemake_folder}/{seekdeep_subdir}/popClustering/{primer}/analysis/selectedClustersInfo.tab.txt'
-			file_handle=open(overall_summary)
+			continue
 		summary_reader=csv.DictReader(file_handle, delimiter='\t')
 		for row in summary_reader:
 			sample=row['s_Sample']
@@ -49,8 +51,10 @@ def populate_db(main_db, snakemake_folder):
 			for rep_number in range(1, len(main_db[primer][sample])+1):
 				rep_nm_header=f'R{rep_number}_name'
 				rep_cnt_header=f'R{rep_number}_ReadCnt'
-				rep_name=row[rep_nm_header][3:]
-				count=row[rep_cnt_header]
+				rep_name=''
+				if rep_nm_header in row:
+					rep_name=row[rep_nm_header][3:]
+					count=row[rep_cnt_header]
 #				print(primer, sample, rep_name, haplotype)
 				if rep_name!='' and haplotype!='':
 					if haplotype not in main_db[primer][sample][rep_name]:

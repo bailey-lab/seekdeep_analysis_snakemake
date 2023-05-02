@@ -5,13 +5,14 @@ import csv
 import pickle
 import yaml
 import gzip
+import os
 
 snakemake_folder=snakemake.input['seekdeep_results']
 #database_pickle=snakemake.output['pickle_aa_db']
 database_yaml=snakemake.output['yaml_aa_db']
-sample_file=f'{snakemake_folder}/sampleNames.tab.txt'
-zipped=snakemake.params['zipped_status']
 seekdeep_subdir=snakemake.params['seekdeep_subdir']
+
+sample_file=f'{snakemake_folder}/{seekdeep_subdir}/info/sampNames.tab.txt'
 sites_file=snakemake.input['sites_of_interest']
 
 
@@ -32,12 +33,14 @@ def make_sites_dict(sites_file):
 def make_aa_db(primer_list, sites_dict):
 	aa_dict={}
 	for primer in primer_list:
-		if zipped:
-			overall_summary=f'{snakemake_folder}/{seekdeep_subdir}/popClustering/{primer}/analysis/selectedClustersInfo.tab.txt.gz'
-			file_handle=gzip.open(overall_summary, mode='rt')
+		zip_test=f'{snakemake_folder}/{seekdeep_subdir}/popClustering/{primer}/analysis/selectedClustersInfo.tab.txt.gz'
+		unzip_test=f'{snakemake_folder}/{seekdeep_subdir}/popClustering/{primer}/analysis/selectedClustersInfo.tab.txt'
+		if os.path.isfile(zip_test):
+			file_handle=gzip.open(zip_test, mode='rt')
+		elif os.path.isfile(unzip_test):
+			file_handle=open(unzip_test)
 		else:
-			overall_summary=f'{snakemake_folder}/{seekdeep_subdir}/popClustering/{primer}/analysis/selectedClustersInfo.tab.txt'
-			file_handle=open(overall_summary)
+			continue
 		summary_reader=csv.DictReader(file_handle, delimiter='\t')
 		for row in summary_reader:
 			haplotype=row['h_popUID']
@@ -49,8 +52,9 @@ def make_aa_db(primer_list, sites_dict):
 			final_list=[]
 			for aa in aa_sites:
 				pos=aa[:-1]
-				if pos in sites_dict:
-					final_list.append(aa)
+#				if pos in sites_dict:
+#					final_list.append(aa)
+				final_list.append(aa)
 			aa_dict[haplotype]=final_list
 	return aa_dict
 

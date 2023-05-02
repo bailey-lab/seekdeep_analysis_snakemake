@@ -41,10 +41,15 @@ def populate_graph_list(reorganized_db):
 		replicate=replicate_list[0]
 		count_rep_list=[]
 		hap_rep_list=[]
-		y_values.append('_'.join(replicate_list) #this could be passed as additional list arguments for each replicate
+		y_values.append('_'.join(replicate_list)) #this could be passed as additional list arguments for each replicate
 		for primer in x_values:
-			count_rep_list.append(math.log(reorganized_db[replicate][primer][0]+1, 2))
-			hap_rep_list.append(reorganized_db[replicate][primer][1])
+			print('replicate is', replicate, 'primer is', primer)
+			if replicate in reorganized_db and primer in reorganized_db[replicate]:
+				count_rep_list.append(math.log(reorganized_db[replicate][primer][0]+1, 2))
+				hap_rep_list.append(reorganized_db[replicate][primer][1])
+			else:
+				count_rep_list.append(math.log(1, 2))
+				hap_rep_list.append(0)
 		count_graphing_list.append(count_rep_list)
 		hap_graphing_list.append(hap_rep_list)
 		count_tsv_file.write(replicate+'\t'+'\t'.join(map(str, count_rep_list))+'\n')

@@ -34,7 +34,6 @@ rule make_database:
 	input:
 		seekdeep_results=config['skdp_folder']
 	params:
-		zipped_status=config['zipped_status'],
 		seekdeep_subdir=config['seekdeep_subdir']
 	output:
 		yaml_database=output_root+'read_dict.yaml'
@@ -83,7 +82,6 @@ rule make_aa_database:
 		seekdeep_results=config['skdp_folder'],
 		sites_of_interest='input_files/sites_of_interest.tsv'
 	params:
-		zipped_status=config['zipped_status'],
 		seekdeep_subdir=config['seekdeep_subdir']
 	output:
 #		pickle_aa_db=output_root+'aa_dict.pkl',
@@ -97,7 +95,8 @@ rule plot_aa_freqs:
 		yaml_aa_db=output_root+'aa_dict.yaml',
 		yaml_main_db=output_root+'read_dict.yaml',
 		#pickle_sorted_parasitemia=output_root+config['output_folder']+'_sorted_parasitemia.pkl'
-		yaml_sorted_parasitemia=output_root+config['output_folder']+'_sorted_parasitemia.yaml'
+	params:
+		sorted_reps=expand('{reps}', reps=config['sorted_reps'])
 	output:
 		aa_heatmap=output_root+config['output_folder']+'_amino_acid_heatmap.html',
 		aa_tsv=output_root+config['output_folder']+'_amino_acid_fracs.tsv',

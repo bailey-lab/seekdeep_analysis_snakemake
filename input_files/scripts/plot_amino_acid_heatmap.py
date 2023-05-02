@@ -7,7 +7,7 @@ import math
 #main_db=pickle.load(open(snakemake.input['pickle_main_db'], 'rb'))
 main_db=yaml.safe_load(open(snakemake.input['yaml_main_db']))
 #pickle_sorted_parasitemia=pickle.load(open(snakemake.input['sorted_parasitemia'], 'rb'))
-yaml_sorted_parasitemia=yaml.safe_load(open(snakemake.input['yaml_sorted_parasitemia']))
+sorted_replicates=snakemake.params['sorted_reps']
 aa_db=yaml.safe_load(open(snakemake.input['yaml_aa_db'], 'rb'))
 aa_heatmap=snakemake.output['aa_heatmap']
 aa_tsv=open(snakemake.output['aa_tsv'], 'w')
@@ -46,14 +46,14 @@ def get_fractions(main_db, aa_db):
 						fraction_dict[replicate].setdefault(amino_acid, count/total)
 	return count_dict, fraction_dict, sorted(list(amino_acids))
 
-def populate_graph_list(fraction_dict, sorted_parasitemia, amino_acids):
+def populate_graph_list(fraction_dict, sorted_replicates, amino_acids):
 	aa_graphing_list=[]
-	y_values=sorted_parasitemia
+	y_values=sorted_replicates
 	x_values=amino_acids
 	aa_tsv.write('replicate'+'\t'+'\t'.join(x_values)+'\n')
-	for replicate in sorted_parasitemia:
+	for replicate in sorted_replicates:
 		replicate_list=[]
-		sample_replicate=replicate.split('_')[0]
+		sample_replicate=replicate
 		for amino_acid in amino_acids:
 			if sample_replicate in fraction_dict and amino_acid in fraction_dict[sample_replicate]:
 				replicate_list.append(fraction_dict[sample_replicate][amino_acid])
@@ -71,14 +71,14 @@ def plot_heatmap(graphing_list, x_values, y_values, x_title, y_title, count_titl
 	fig.update_layout(width=width, height=height, autosize=False)
 	fig.write_html(output_path)
 
-def make_count_table(count_dict, sorted_parasitemia, output_file):
+def make_count_table(count_dict, sorted_replicates, output_file):
 	'''
 	plots the counts associated with every amino acid of every gene in every
 	replicate. Replicates are rows, with columns for gene name, amino acid
 	position, mutation, mutation read count, and total read count
 	'''
 	output_file.write(f'rep\tgene\tposition\tmutation\tmutation_count\ttotal_count\n')
-	for rep in sorted_parasitemia:
+	for rep in sorted_replicates:
 		rep=rep.split('_')[0]
 		if rep in count_dict:
 			for gene in count_dict[rep]:
@@ -89,8 +89,8 @@ def make_count_table(count_dict, sorted_parasitemia, output_file):
 							count=count_dict[rep][gene][pos][mut]
 							output_file.write(f'{rep}\t{gene}\t{pos}\t{mut}\t{count}\t{total}\n')
 count_dict, fraction_dict, amino_acids=get_fractions(main_db, aa_db)
-make_count_table(count_dict, yaml_sorted_parasitemia, open(count_table, 'w'))
-aa_graphing_list, x_values, y_values=populate_graph_list(fraction_dict, yaml_sorted_parasitemia, amino_acids)
+make_count_table(count_dict, sorted_replicates, open(count_table, 'w'))
+aa_graphing_list, x_values, y_values=populate_graph_list(fraction_dict, sorted_replicates, amino_acids)
 plot_heatmap(aa_graphing_list, x_values, y_values, 'amino acids', 'replicates', 'fraction of site', aa_heatmap)
 #pickle.dump(count_dict, open(count_pickle, 'wb'))
 yaml.dump(count_dict, open(count_yaml, 'w'))
