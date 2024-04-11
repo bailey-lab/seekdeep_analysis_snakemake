@@ -4,6 +4,7 @@ output_root='output_files/'+config['output_folder']+'/'
 
 rule all:
 	input:
+		read_counts=output_root+config['output_folder']+'_reads_per_hap_counts.tsv',
 		heatmap_plot=output_root+config['output_folder']+'_read_heatmap.html',
 		hap_heatmap_plot=output_root+config['output_folder']+'_COI_heatmap.html',
 		config_duplicate=output_root+'copied_config_files/analyze_seekdeep.yaml',
@@ -72,6 +73,26 @@ rule plot_heatmap:
 #		pickle_sorted_parasitemia=output_root+config['output_folder']+'_sorted_parasitemia.pkl'
 	script:
 		'input_files/scripts/plot_heatmap.py'
+
+rule plot_frac_heatmap:
+	'''
+	plots a heatmap and a table with read counts and fractions of the replicate
+	associated with each haplotype
+	'''
+	input:
+		yaml_database=output_root+'read_dict.yaml',
+	params:
+		sorted_reps=expand('{reps}', reps=config['sorted_reps'])
+	output:
+		count_heatmap_plot=output_root+config['output_folder']+'_reads_per_hap_heatmap.html',
+		frac_heatmap_plot=output_root+config['output_folder']+'_read_frac_heatmap.html',
+		read_counts=output_root+config['output_folder']+'_reads_per_hap_counts.tsv',
+		frac_counts=output_root+config['output_folder']+'_frac_counts.tsv',
+#		pickle_sorted_parasitemia=output_root+config['output_folder']+'_sorted_parasitemia.pkl'
+	script:
+		'input_files/scripts/plot_frac_heatmap.py'
+
+
 
 rule make_aa_database:
 	'''
