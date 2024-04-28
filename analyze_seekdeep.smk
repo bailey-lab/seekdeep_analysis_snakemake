@@ -1,15 +1,14 @@
 configfile: 'analyze_seekdeep.yaml'
 
-output_root='output_files/'+config['output_folder']+'/'
+output_root=config['output_folder']+'/'
 
 rule all:
 	input:
-		read_counts=output_root+config['output_folder']+'_reads_per_hap_counts.tsv',
-		heatmap_plot=output_root+config['output_folder']+'_read_heatmap.html',
-		hap_heatmap_plot=output_root+config['output_folder']+'_COI_heatmap.html',
+		heatmap_plot=output_root+'read_heatmap.html',
+		hap_heatmap_plot=output_root+'COI_heatmap.html',
 		config_duplicate=output_root+'copied_config_files/analyze_seekdeep.yaml',
 		yaml_database=output_root+'read_dict.yaml',
-		final_file=output_root+config['output_folder']+'_'+config['final_output']
+		final_file=output_root+config['final_output']
 
 rule copy_files:
 	input:
@@ -57,7 +56,7 @@ rule get_stats:
 	script:
 		'input_files/scripts/get_stats.py'
 
-rule plot_heatmap:
+rule plot_rep_heatmap:
 	'''
 	plots a heatmap and a table with read counts
 	'''
@@ -66,32 +65,27 @@ rule plot_heatmap:
 	params:
 		sorted_reps=expand('{reps}', reps=config['sorted_reps'])
 	output:
-		count_heatmap_plot=output_root+config['output_folder']+'_read_heatmap.html',
-		hap_heatmap_plot=output_root+config['output_folder']+'_COI_heatmap.html',
-		read_counts=output_root+config['output_folder']+'_read_counts.tsv',
-		hap_counts=output_root+config['output_folder']+'_hap_counts.tsv',
+		count_heatmap_plot=output_root+'rep_read_heatmap.html',
+		hap_heatmap_plot=output_root+'rep_COI_heatmap.html',
+		read_counts=output_root+'rep_read_counts.tsv',
+		hap_counts=output_root+'rep_hap_counts.tsv',
 #		pickle_sorted_parasitemia=output_root+config['output_folder']+'_sorted_parasitemia.pkl'
 	script:
-		'input_files/scripts/plot_heatmap.py'
+		'input_files/scripts/plot_rep_heatmap.py'
 
-rule plot_frac_heatmap:
+rule plot_samp_heatmap:
 	'''
-	plots a heatmap and a table with read counts and fractions of the replicate
-	associated with each haplotype
+	plots a heatmap and a table with read counts
 	'''
 	input:
 		yaml_database=output_root+'read_dict.yaml',
-	params:
-		sorted_reps=expand('{reps}', reps=config['sorted_reps'])
 	output:
-		count_heatmap_plot=output_root+config['output_folder']+'_reads_per_hap_heatmap.html',
-		frac_heatmap_plot=output_root+config['output_folder']+'_read_frac_heatmap.html',
-		read_counts=output_root+config['output_folder']+'_reads_per_hap_counts.tsv',
-		frac_counts=output_root+config['output_folder']+'_frac_counts.tsv',
-#		pickle_sorted_parasitemia=output_root+config['output_folder']+'_sorted_parasitemia.pkl'
+		count_heatmap_plot=output_root+'samp_read_heatmap.html',
+		hap_heatmap_plot=output_root+'samp_COI_heatmap.html',
+		read_counts=output_root+'samp_read_counts.tsv',
+		hap_counts=output_root+'samp_hap_counts.tsv',
 	script:
-		'input_files/scripts/plot_frac_heatmap.py'
-
+		'input_files/scripts/plot_samp_heatmap.py'
 
 
 rule make_aa_database:
@@ -119,10 +113,10 @@ rule plot_aa_freqs:
 	params:
 		sorted_reps=expand('{reps}', reps=config['sorted_reps'])
 	output:
-		aa_heatmap=output_root+config['output_folder']+'_amino_acid_heatmap.html',
-		aa_tsv=output_root+config['output_folder']+'_amino_acid_fracs.tsv',
+		aa_heatmap=output_root+'amino_acid_heatmap.html',
+		aa_tsv=output_root+'amino_acid_fracs.tsv',
 		#count_pickle=output_root+config['output_folder']+'_amino_acid_counts.pkl',
-		count_yaml=output_root+config['output_folder']+'_amino_acid_counts.yaml',
-		count_table=output_root+config['output_folder']+'_count_table.tsv'
+		count_yaml=output_root+'amino_acid_counts.yaml',
+		count_table=output_root+'count_table.tsv'
 	script:
 		'input_files/scripts/plot_amino_acid_heatmap.py'
