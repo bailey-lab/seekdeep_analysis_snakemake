@@ -43,7 +43,7 @@ def populate_graph_list(reorganized_db):
 		hap_rep_list=[]
 		y_values.append('_'.join(replicate_list)) #this could be passed as additional list arguments for each replicate
 		for primer in x_values:
-			print('replicate is', replicate, 'primer is', primer)
+#			print('replicate is', replicate, 'primer is', primer)
 			if replicate in reorganized_db and primer in reorganized_db[replicate]:
 				count_rep_list.append(math.log(reorganized_db[replicate][primer][0]+1, 2))
 				hap_rep_list.append(reorganized_db[replicate][primer][1])
@@ -62,11 +62,15 @@ def plot_heatmap(graphing_list, x_values, y_values, x_title, y_title, count_titl
 #	print(graphing_list)
 	fig = px.imshow(graphing_list, aspect='auto', labels=dict(x=x_title, y=y_title,
 	color=count_title), x=x_values, y=y_values)
+#	print('dict is', dict(x=x_title, y=y_title, color=count_title))
 	fig.update_xaxes(side="top")
 	fig.update_layout(width=width, height=height, autosize=False)
 	fig.write_html(output_path)
 
 reorganized_db=reorganize_db(main_db)
 count_graphing_list, hap_graphing_list, x_values, y_values=populate_graph_list(reorganized_db)
+
+#print('graphing list is', count_graphing_list)
+
 plot_heatmap(count_graphing_list, x_values, y_values, 'amplicons', 'replicate_plus_metadata', 'log2(read cnts+1)', count_heatmap_plot)
 plot_heatmap(hap_graphing_list, x_values, y_values, 'amplicons', 'replicate_plus_metadata', 'haplotype count', hap_heatmap_plot)

@@ -4,8 +4,10 @@ output_root=config['output_folder']+'/'
 
 rule all:
 	input:
-		heatmap_plot=output_root+'read_heatmap.html',
-		hap_heatmap_plot=output_root+'COI_heatmap.html',
+		samp_heatmap_plot=output_root+'samp_read_heatmap.html',
+		samp_hap_heatmap_plot=output_root+'samp_COI_heatmap.html',
+		rep_heatmap_plot=output_root+'rep_read_heatmap.html',
+		rep_hap_heatmap_plot=output_root+'rep_COI_heatmap.html',
 		config_duplicate=output_root+'copied_config_files/analyze_seekdeep.yaml',
 		yaml_database=output_root+'read_dict.yaml',
 		final_file=output_root+config['final_output']
