@@ -65,6 +65,8 @@ def plot_heatmap(graphing_list, x_values, y_values, x_title, y_title, count_titl
 #	print('dict is', dict(x=x_title, y=y_title, color=count_title))
 	fig.update_xaxes(side="top")
 	fig.update_layout(width=width, height=height, autosize=False)
+	fig.update_layout(yaxis=dict(type='category'))
+	fig.update_layout(yaxis=dict(type='category'))
 	fig.write_html(output_path)
 
 reorganized_db=reorganize_db(main_db)
