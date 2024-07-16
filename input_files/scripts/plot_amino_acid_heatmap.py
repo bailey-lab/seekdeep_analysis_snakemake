@@ -53,7 +53,7 @@ def get_fractions(main_db, aa_db):
 					else:
 						fraction_dict[replicate].setdefault(amino_acid, 0)
 				else:
-					fraction_dict[replicate].setdefault(amino_acid, -1)
+					fraction_dict[replicate].setdefault(amino_acid, 'N/A')
 	return count_dict, fraction_dict, sorted(list(set(amino_acids)))
 
 def populate_graph_list(fraction_dict, sorted_replicates, amino_acids):
@@ -65,11 +65,7 @@ def populate_graph_list(fraction_dict, sorted_replicates, amino_acids):
 		replicate_list=[]
 		sample_replicate=replicate
 		for amino_acid in amino_acids:
-			if sample_replicate in fraction_dict and amino_acid in fraction_dict[sample_replicate]:
-				replicate_list.append(fraction_dict[sample_replicate][amino_acid])
-			else:
-				print('this is odd')
-#				replicate_list.append(-1) #this is the problem line
+			replicate_list.append(fraction_dict[sample_replicate][amino_acid])
 		aa_graphing_list.append(replicate_list)
 		aa_tsv.write(replicate+'\t'+'\t'.join(map(str, replicate_list))+'\n')
 	return aa_graphing_list, x_values, y_values
