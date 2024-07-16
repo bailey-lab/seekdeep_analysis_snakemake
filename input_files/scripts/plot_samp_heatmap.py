@@ -11,24 +11,24 @@ hap_heatmap_plot=snakemake.output['hap_heatmap_plot']
 reorganized_db={}
 
 def summarize_haps(hap_dict):
-	counts, haps=0,0
+	counts, haps=0,[]
 	for hap in hap_dict:
 		counts+=hap_dict[hap]
-		haps+=1
-	return counts, haps
+		haps.append(hap)
+	return counts, set(haps)
 
 def reorganize_db(main_db):
 	for primer in main_db:
 		for sample in main_db[primer]:
-			reps, count_sum, hap_sum=0,0,0
+			reps, count_sum, all_haps=0,0,set([])
 			for replicate in main_db[primer][sample]:
 				counts, haps=summarize_haps(main_db[primer][sample][replicate])
 				reps+=1
 				count_sum+=counts
-				hap_sum+=haps
-				if sample not in reorganized_db:
-					reorganized_db[sample]={}
-				reorganized_db[sample][primer]=count_sum, reps, hap_sum
+				all_haps=all_haps|haps
+			if sample not in reorganized_db:
+				reorganized_db[sample]={}
+			reorganized_db[sample][primer]=count_sum, reps, len(all_haps)
 	return reorganized_db
 
 def populate_graph_list(reorganized_db):
@@ -46,7 +46,7 @@ def populate_graph_list(reorganized_db):
 			counts, reps, haps=reorganized_db[sample][primer]
 			#print('sample is', sample, 'primer is', primer)
 			count_samp_list.append(math.log(counts/reps+1, 2))
-			hap_samp_list.append(haps/reps)
+			hap_samp_list.append(haps)
 		count_graphing_list.append(count_samp_list)
 		hap_graphing_list.append(hap_samp_list)
 		count_tsv_file.write(sample+'\t'+'\t'.join(map(str, count_samp_list))+'\n')
