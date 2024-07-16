@@ -16,7 +16,7 @@ count_yaml=snakemake.output['count_yaml']
 count_table=snakemake.output['count_table']
 
 def get_fractions(main_db, aa_db):
-	count_dict,fraction_dict={},{}
+	all_sites, count_dict,fraction_dict, amino_acids={},{},{},[]
 	for primer in main_db:
 		for sample in main_db[primer]:
 			for replicate in main_db[primer][sample]:
@@ -26,6 +26,8 @@ def get_fractions(main_db, aa_db):
 					for amino_acid in aa_db[haplotype]:
 						site=amino_acid[:-1]
 						amino_acid=f'{primer}_{amino_acid}'
+						amino_acids.append(amino_acid)
+						all_sites.setdefault(f'{primer}_{site}', []).append(amino_acid)
 						count_dict.setdefault(replicate, {})
 						count_dict[replicate].setdefault(primer, {})
 						count_dict[replicate][primer].setdefault(site, {})
@@ -33,18 +35,26 @@ def get_fractions(main_db, aa_db):
 						count_dict[replicate][primer][site][amino_acid]+=count
 						count_dict[replicate][primer][site].setdefault('total', 0)
 						count_dict[replicate][primer][site]['total']+=count
-	amino_acids=set([])
-	for replicate in count_dict:
-		for primer in count_dict[replicate]:
-			for site in count_dict[replicate][primer]:
-				total=count_dict[replicate][primer][site]['total']
-				for amino_acid in count_dict[replicate][primer][site]:
-					if amino_acid!='total':
-						amino_acids.add(amino_acid)
-						count=count_dict[replicate][primer][site][amino_acid]
-						fraction_dict.setdefault(replicate, {})
+	#for replicate in count_dict:
+	for replicate in sorted_replicates:
+		#for primer in count_dict[replicate]:
+			#for site in count_dict[replicate][primer]:
+		fraction_dict.setdefault(replicate, {})
+		for site in all_sites:
+				#total=count_dict[replicate][primer][site]['total']
+			primer, primer_site=site.split('_')
+			for amino_acid in all_sites[site]:
+				#for amino_acid in count_dict[replicate][primer][site]:
+				if replicate in count_dict and primer in count_dict[replicate] and primer_site in count_dict[replicate][primer]:
+					if amino_acid in count_dict[replicate][primer][primer_site]:
+						total=count_dict[replicate][primer][primer_site]['total']
+						count=count_dict[replicate][primer][primer_site][amino_acid]
 						fraction_dict[replicate].setdefault(amino_acid, count/total)
-	return count_dict, fraction_dict, sorted(list(amino_acids))
+					else:
+						fraction_dict[replicate].setdefault(amino_acid, 0)
+				else:
+					fraction_dict[replicate].setdefault(amino_acid, -1)
+	return count_dict, fraction_dict, sorted(list(set(amino_acids)))
 
 def populate_graph_list(fraction_dict, sorted_replicates, amino_acids):
 	aa_graphing_list=[]
@@ -58,13 +68,14 @@ def populate_graph_list(fraction_dict, sorted_replicates, amino_acids):
 			if sample_replicate in fraction_dict and amino_acid in fraction_dict[sample_replicate]:
 				replicate_list.append(fraction_dict[sample_replicate][amino_acid])
 			else:
-				replicate_list.append(0)
+				print('this is odd')
+#				replicate_list.append(-1) #this is the problem line
 		aa_graphing_list.append(replicate_list)
 		aa_tsv.write(replicate+'\t'+'\t'.join(map(str, replicate_list))+'\n')
 	return aa_graphing_list, x_values, y_values
 
 def plot_heatmap(graphing_list, x_values, y_values, x_title, y_title, count_title, output_path, width=2000, height=4000):
-	print(graphing_list)
+	#print(graphing_list)
 	fig = px.imshow(graphing_list, aspect='auto', labels=dict(x=x_title, y=y_title,
 	color=count_title), x=x_values, y=y_values)
 	fig.update_xaxes(side="top")
