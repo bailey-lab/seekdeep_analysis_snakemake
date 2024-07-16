@@ -53,7 +53,7 @@ def get_fractions(main_db, aa_db):
 					else:
 						fraction_dict[replicate].setdefault(amino_acid, 0)
 				else:
-					fraction_dict[replicate].setdefault(amino_acid, 'N/A')
+					fraction_dict[replicate].setdefault(amino_acid, 'NA')
 	return count_dict, fraction_dict, sorted(list(set(amino_acids)))
 
 def populate_graph_list(fraction_dict, sorted_replicates, amino_acids):
