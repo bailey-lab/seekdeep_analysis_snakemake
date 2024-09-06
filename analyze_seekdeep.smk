@@ -89,7 +89,6 @@ rule plot_samp_heatmap:
 	script:
 		'input_files/scripts/plot_samp_heatmap.py'
 
-
 rule make_aa_database:
 	'''
 	examines the final summary table to figure out prevalences of individual
@@ -106,7 +105,7 @@ rule make_aa_database:
 	script:
 		'input_files/scripts/make_aa_database.py'
 
-rule plot_aa_freqs:
+rule plot_rep_aa_freqs:
 	input:
 #		pickle_aa_db=output_root+'aa_dict.pkl',
 		yaml_aa_db=output_root+'aa_dict.yaml',
@@ -115,10 +114,22 @@ rule plot_aa_freqs:
 	params:
 		sorted_reps=expand('{reps}', reps=config['sorted_reps'])
 	output:
-		aa_heatmap=output_root+'amino_acid_heatmap.html',
-		aa_tsv=output_root+'amino_acid_fracs.tsv',
+		aa_heatmap=output_root+'rep_amino_acid_heatmap.html',
+		aa_tsv=output_root+'rep_amino_acid_fracs.tsv',
 		#count_pickle=output_root+config['output_folder']+'_amino_acid_counts.pkl',
-		count_yaml=output_root+'amino_acid_counts.yaml',
-		count_table=output_root+'count_table.tsv'
+		count_yaml=output_root+'rep_amino_acid_counts.yaml',
+		count_table=output_root+'rep_count_table.tsv'
 	script:
-		'input_files/scripts/plot_amino_acid_heatmap.py'
+		'input_files/scripts/plot_rep_amino_acid_heatmap.py'
+
+rule plot_samp_aa_freqs:
+	input:
+#		pickle_aa_db=output_root+'aa_dict.pkl',
+		yaml_aa_db=output_root+'aa_dict.yaml',
+		yaml_main_db=output_root+'read_dict.yaml',
+		#pickle_sorted_parasitemia=output_root+config['output_folder']+'_sorted_parasitemia.pkl'
+	output:
+		aa_heatmap=output_root+'samp_amino_acid_heatmap.html',
+		aa_tsv=output_root+'samp_amino_acid_fracs.tsv',
+	script:
+		'input_files/scripts/plot_samp_amino_acid_heatmap.py'
