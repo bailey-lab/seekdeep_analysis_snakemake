@@ -12,8 +12,6 @@ aa_db=yaml.safe_load(open(snakemake.input['yaml_aa_db'], 'rb'))
 aa_heatmap=snakemake.output['aa_heatmap']
 aa_tsv=open(snakemake.output['aa_tsv'], 'w')
 #count_pickle=snakemake.output['count_pickle']
-count_yaml=snakemake.output['count_yaml']
-count_table=snakemake.output['count_table']
 
 def get_fractions(main_db, aa_db):
 	all_sites, count_dict,fraction_dict, amino_acids, all_samples={},{},{},[],{}
