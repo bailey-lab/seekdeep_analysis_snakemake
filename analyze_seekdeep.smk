@@ -125,8 +125,9 @@ rule plot_rep_aa_freqs:
 rule plot_samp_aa_freqs:
 	input:
 #		pickle_aa_db=output_root+'aa_dict.pkl',
+		aa_heatmap=output_root+'rep_amino_acid_heatmap.html',
 		yaml_aa_db=output_root+'aa_dict.yaml',
-		yaml_main_db=output_root+'read_dict.yaml',
+		yaml_main_db=output_root+'read_dict.yaml'
 		#pickle_sorted_parasitemia=output_root+config['output_folder']+'_sorted_parasitemia.pkl'
 	output:
 		aa_heatmap=output_root+'samp_amino_acid_heatmap.html',
